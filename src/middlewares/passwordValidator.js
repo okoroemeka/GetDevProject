@@ -1,5 +1,5 @@
 /**
- * Calculates the password strength
+ * @description - Calculates the password strength
  * @param {string} password
  * @returns {number} strength
  */

@@ -67,24 +67,12 @@ class Article {
           false
         );
       }
-      const updateArticleData = {};
-      if (title && title.trim().length) {
-        updateArticleData.title = title;
-      }
-      if (articleBody && articleBody.trim().length) {
-        updateArticleData.body = articleBody;
-      }
-      const updatedArticle = await queryHelper.update(
-        ArticleModel,
-        updateArticleData,
-        {
-          returning: true,
-          where: {
-            id: articleId,
-            userId
-          }
-        }
-      );
+      const updatedArticle = await queryHelper.updateArticleHelper({
+        title,
+        articleBody,
+        articleId,
+        userId
+      });
       return responseHelper(res, 200, 'Success', updatedArticle, true);
     } catch (error) {
       return responseHelper(
