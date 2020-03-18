@@ -4,27 +4,24 @@ export default (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
     {
-      username: {
+      fullname: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: {
-          args: true,
-          msg: 'Username is already taken'
-        },
         validate: {
           notEmpty: {
             args: true,
-            msg: 'Please provide username'
+            msg: 'Please provide fullname'
           }
         }
+      },
+      bio: {
+        type: DataTypes.STRING,
+        allowNull: false
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: {
-          args: true,
-          msg: 'Email address is already registered'
-        },
+        unique: true,
         validate: {
           notEmpty: {
             args: true,
@@ -43,12 +40,6 @@ export default (sequelize, DataTypes) => {
           isByteLength: {
             args: 8,
             msg: 'Password must be at least 8 characters long'
-          },
-          isAlphanumeric(value) {
-            value = value.trim();
-            if (!/[^\s\\]/.test(value)) {
-              throw new Error('Password should be alphanumeric e.g. abc123');
-            }
           }
         }
       }
@@ -66,7 +57,7 @@ export default (sequelize, DataTypes) => {
       }
     }
   );
-  User.associate = (models) => {
+  User.associate = models => {
     User.hasMany(models.Article, { foreignKey: 'userId', as: 'articles' });
   };
   return User;
